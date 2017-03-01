@@ -1,4 +1,4 @@
-package se.hellsoft.pia6todoapplication;
+package com.glasharry.ToDoApp;
 
 import org.junit.Test;
 
