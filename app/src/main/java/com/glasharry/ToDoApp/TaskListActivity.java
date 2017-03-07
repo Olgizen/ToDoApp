@@ -26,6 +26,7 @@ public class TaskListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
 
+    public static final String KEY_TASKS = "tasks";
     private TasksAdapter tasksAdapter;
 
     @Override
@@ -139,8 +140,10 @@ public class TaskListActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_statistics)
         {
-            Intent intent = new Intent(this, StatisticsActivity.class);
-            startActivity(intent);
+            Intent statisticsIntent = new Intent(this, StatisticsActivity.class);
+            ArrayList<Task> tasks = new ArrayList<>(TaskStorageHelper.getInstance().getTasks());
+            statisticsIntent.putParcelableArrayListExtra(KEY_TASKS, tasks);
+            startActivity(statisticsIntent);
         }
         else if (id == R.id.nav_info)
         {
