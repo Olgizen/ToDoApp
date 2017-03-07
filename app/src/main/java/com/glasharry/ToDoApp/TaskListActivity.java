@@ -103,9 +103,21 @@ public class TaskListActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_filter_all)
+        if (id == R.id.action_filter_all_except_archived)
         {
             // TODO Handle filtering here...
+            return true;
+        }
+        else if (id == R.id.action_filter_active_tasks)
+        {
+            return true;
+        }
+        else if (id == R.id.action_filter_finished_tasks)
+        {
+            return true;
+        }
+        else if (id == R.id.action_filter_archived_tasks)
+        {
             return true;
         }
 
