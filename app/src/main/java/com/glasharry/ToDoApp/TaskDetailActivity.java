@@ -9,12 +9,16 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-public class TaskDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class TaskDetailActivity extends AppCompatActivity implements View.OnClickListener
+{
     public static final String KEY_TASK = "task";
     private Task task;
 
+    TaskStorageHelper storageHelper = TaskStorageHelper.getInstance();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -27,16 +31,20 @@ public class TaskDetailActivity extends AppCompatActivity implements View.OnClic
         Intent intent = getIntent();
         task = intent.getParcelableExtra(KEY_TASK);
 
-        if (task != null) {
+        if (task != null)
+        {
             // Add click listener only for an existing Task
             deleteButton.setOnClickListener(this);
-        } else {
+        }
+        else
+        {
             // Don't show if task is null (new Task!)
             deleteButton.setVisibility(View.INVISIBLE);
         }
 
         // Only update the field if we have an existing task
-        if (task != null) {
+        if (task != null)
+        {
             EditText title = (EditText) findViewById(R.id.title);
             title.setText(task.getTitle());
             EditText description = (EditText) findViewById(R.id.description);
@@ -48,8 +56,10 @@ public class TaskDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home)
+        {
             finish();
             return true;
         }
@@ -58,8 +68,10 @@ public class TaskDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    public void onClick(View v)
+    {
+        switch (v.getId())
+        {
             case R.id.save_button:
                 saveOrCreateTask();
                 break;
@@ -70,11 +82,39 @@ public class TaskDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    private void deleteTask() {
+    private void deleteTask()
+    {
+        storageHelper.deleteTask(task);
 
+        finish();
     }
 
-    private void saveOrCreateTask() {
+    private void saveOrCreateTask()
+    {
+        if (task == null)
+        {
+            task = new Task();
+        }
+        EditText title = (EditText) findViewById(R.id.title);
+        String newTitle = title.getText().toString();
+        task.setTitle(newTitle);
 
+        EditText description = (EditText) findViewById(R.id.description);
+        String newDesc = description.getText().toString();
+        task.setDescription(newDesc);
+
+        CheckBox completed = (CheckBox) findViewById(R.id.completed);
+        if (completed.isChecked())
+        {
+            task.setCompleted(true);
+        }
+        else
+        {
+            task.setCompleted(false);
+        }
+
+        storageHelper.saveTask(task);
+
+        finish();
     }
 }

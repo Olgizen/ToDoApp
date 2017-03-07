@@ -5,14 +5,18 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class TaskStorageHelper {
+public final class TaskStorageHelper
+{
     private static final TaskStorageHelper INSTANCE = new TaskStorageHelper();
     private List<Task> tasks = new ArrayList<>();
 
-    private TaskStorageHelper() {
+    private TaskStorageHelper()
+    {
+
     }
 
-    public void initStorage(Context context) {
+    public void initStorage(Context context)
+    {
         tasks.clear();
         Task first = new Task();
         first.setId(1);
@@ -56,15 +60,19 @@ public final class TaskStorageHelper {
         tasks.add(eighth);
     }
 
-    public static TaskStorageHelper getInstance() {
+    public static TaskStorageHelper getInstance()
+    {
         return INSTANCE;
     }
 
-    public void saveTask(Task task) {
+    public void saveTask(Task task)
+    {
         long nextId = 0;
-        for (Task existingTask : tasks) {
+        for (Task existingTask : tasks)
+        {
             nextId = existingTask.getId() > nextId ? existingTask.getId() : nextId;
-            if (task.getId() == existingTask.getId()) {
+            if (task.getId() == existingTask.getId())
+            {
                 existingTask.setTitle(task.getTitle());
                 existingTask.setDescription(task.getDescription());
                 existingTask.setCompleted(task.isCompleted());
@@ -77,7 +85,22 @@ public final class TaskStorageHelper {
         tasks.add(task);
     }
 
-    public List<Task> getTasks() {
+    public void deleteTask(Task task)
+    {
+        for (int i = 0; i < tasks.size(); i++)
+        {
+            Task existingTask = tasks.get(i);
+            if(task.getId() == existingTask.getId())
+            {
+                tasks.remove(i);
+
+                return;
+            }
+        }
+    }
+
+    public List<Task> getTasks()
+    {
         return tasks;
     }
 }

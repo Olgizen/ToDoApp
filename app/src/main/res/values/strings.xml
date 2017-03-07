@@ -17,4 +17,6 @@
     <string name="label_statistics">Statistics</string>
     <string name="label_info">Info</string>
     <string name="label_add_task">Add Task</string>
+    <string name="title_activity_statistics">StatisticsActivity</string>
+    <string name="title_activity_info">InfoActivity</string>
 </resources>

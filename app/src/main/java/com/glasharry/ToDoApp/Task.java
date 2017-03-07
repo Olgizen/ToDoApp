@@ -3,7 +3,8 @@ package com.glasharry.ToDoApp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Task implements Parcelable {
+public class Task implements Parcelable
+{
 
     private long id;
     private String title;
@@ -11,10 +12,13 @@ public class Task implements Parcelable {
     private boolean completed;
     private boolean archived;
 
-    public Task() {
+    public Task()
+    {
+
     }
 
-    public Task(long id, String title, String description, boolean completed, boolean archived) {
+    public Task(long id, String title, String description, boolean completed, boolean archived)
+    {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -22,7 +26,8 @@ public class Task implements Parcelable {
         this.archived = archived;
     }
 
-    protected Task(Parcel in) {
+    protected Task(Parcel in)
+    {
         id = in.readLong();
         title = in.readString();
         description = in.readString();
@@ -31,7 +36,8 @@ public class Task implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags)
+    {
         dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(description);
@@ -40,64 +46,79 @@ public class Task implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return 0;
     }
 
-    public static final Creator<Task> CREATOR = new Creator<Task>() {
+    public static final Creator<Task> CREATOR = new Creator<Task>()
+    {
         @Override
-        public Task createFromParcel(Parcel in) {
+        public Task createFromParcel(Parcel in)
+        {
             return new Task(in);
         }
 
         @Override
-        public Task[] newArray(int size) {
+        public Task[] newArray(int size)
+        {
             return new Task[size];
         }
     };
 
-    public long getId() {
+    public long getId()
+    {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(long id)
+    {
         this.id = id;
     }
 
-    public String getTitle() {
+    public String getTitle()
+    {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         this.title = title;
     }
 
-    public String getDescription() {
+    public String getDescription()
+    {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description)
+    {
         this.description = description;
     }
 
-    public boolean isCompleted() {
+    public boolean isCompleted()
+    {
         return completed;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(boolean completed)
+    {
         this.completed = completed;
     }
 
-    public boolean isArchived() {
+    public boolean isArchived()
+    {
         return archived;
     }
 
-    public void setArchived(boolean archived) {
+    public void setArchived(boolean archived)
+    {
         this.archived = archived;
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -112,7 +133,8 @@ public class Task implements Parcelable {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + (description != null ? description.hashCode() : 0);

@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskListActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener
+{
 
     private TasksAdapter tasksAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -45,12 +47,15 @@ public class TaskListActivity extends AppCompatActivity
 
         TaskStorageHelper storageHelper = TaskStorageHelper.getInstance();
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null)
+        {
             storageHelper.initStorage(this);
             FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-            fab.setOnClickListener(new View.OnClickListener() {
+            fab.setOnClickListener(new View.OnClickListener()
+            {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View view)
+                {
                     Intent intent = new Intent(view.getContext(), TaskDetailActivity.class);
                     startActivity(intent);
                 }
@@ -63,7 +68,8 @@ public class TaskListActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
 
         List<Task> tasks = TaskStorageHelper.getInstance().getTasks();
@@ -71,27 +77,34 @@ public class TaskListActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
+    public void onBackPressed()
+    {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer.isDrawerOpen(GravityCompat.START))
+        {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        }
+        else
+        {
             super.onBackPressed();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.filters, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_filter_all) {
+        if (id == R.id.action_filter_all)
+        {
             // TODO Handle filtering here...
             return true;
         }
@@ -101,49 +114,59 @@ public class TaskListActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(MenuItem item)
+    {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (id == R.id.nav_tasks)
         {
-            // Handle the camera action
+            drawer.closeDrawer(GravityCompat.START);
         }
         else if (id == R.id.nav_statistics)
         {
-
+            Intent intent = new Intent(this, StatisticsActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_info)
         {
-
+            Intent intent = new Intent(this, InfoActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_add_task)
         {
-
+            Intent intent = new Intent(this, TaskDetailActivity.class);
+            startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private class TasksAdapter extends RecyclerView.Adapter<TaskListActivity.TasksAdapter.TaskViewHolder> {
+    private class TasksAdapter extends RecyclerView.Adapter<TaskListActivity.TasksAdapter.TaskViewHolder>
+    {
         private List<Task> tasks = new ArrayList<>();
 
-        public void setTasks(List<Task> tasks) {
+        public void setTasks(List<Task> tasks)
+        {
             this.tasks = tasks;
             notifyDataSetChanged();
         }
 
         @Override
-        public TaskListActivity.TasksAdapter.TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public TaskListActivity.TasksAdapter.TaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View itemView = inflater.inflate(R.layout.task_item, parent, false);
             return new TaskListActivity.TasksAdapter.TaskViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(TaskListActivity.TasksAdapter.TaskViewHolder holder, int position) {
+        public void onBindViewHolder(TaskListActivity.TasksAdapter.TaskViewHolder holder, int position)
+        {
             Task task = tasks.get(position);
             holder.title.setText(task.getTitle());
             holder.description.setText(task.getDescription());
@@ -151,20 +174,25 @@ public class TaskListActivity extends AppCompatActivity
         }
 
         @Override
-        public int getItemCount() {
+        public int getItemCount()
+        {
             return tasks.size();
         }
 
-        class TaskViewHolder extends RecyclerView.ViewHolder {
+        class TaskViewHolder extends RecyclerView.ViewHolder
+        {
             final TextView title;
             final TextView description;
             final CheckBox completed;
 
-            TaskViewHolder(View itemView) {
+            TaskViewHolder(View itemView)
+            {
                 super(itemView);
-                itemView.setOnClickListener(new View.OnClickListener() {
+                itemView.setOnClickListener(new View.OnClickListener()
+                {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(View v)
+                    {
                         int position = getAdapterPosition();
                         Task task = tasks.get(position);
                         Intent intent = new Intent(v.getContext(), TaskDetailActivity.class);
@@ -177,9 +205,11 @@ public class TaskListActivity extends AppCompatActivity
                 description = (TextView) itemView.findViewById(R.id.description);
                 completed = (CheckBox) itemView.findViewById(R.id.completed);
 
-                completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                completed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+                {
                     @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+                    {
                         int position = getAdapterPosition();
                         Task task = tasks.get(position);
                         task.setCompleted(isChecked);
@@ -188,5 +218,4 @@ public class TaskListActivity extends AppCompatActivity
             }
         }
     }
-
 }
