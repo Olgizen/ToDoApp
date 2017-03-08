@@ -22,12 +22,18 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.filter;
+import static android.R.attr.id;
+
 public class TaskListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
 
     public static final String KEY_TASKS = "tasks";
     private TasksAdapter tasksAdapter;
+    private int selected;
+    private int selectedFilter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -103,27 +109,67 @@ public class TaskListActivity extends AppCompatActivity
     {
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_filter_all_except_archived)
-        {
-            // TODO Handle filtering here...
-            return true;
-        }
-        else if (id == R.id.action_filter_active_tasks)
-        {
-            return true;
-        }
-        else if (id == R.id.action_filter_finished_tasks)
-        {
-            return true;
-        }
-        else if (id == R.id.action_filter_archived_tasks)
-        {
-            return true;
-        }
+
+        if (filterTasks(id)) return true;
 
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean filterTasks(int filterId)
+    {
+        ArrayList<Task> taskList = new ArrayList<Task>(TaskStorageHelper.getInstance().getTasks());
+
+        selectedFilter = filterId;
+
+        if (filterId == R.id.action_filter_all_tasks)
+        {
+            tasksAdapter.setTasks(taskList);
+            return true;
+        }
+        else if (filterId == R.id.action_filter_finished_tasks)
+        {
+            ArrayList<Task> completed = filterCompleted(taskList);
+            tasksAdapter.setTasks(completed);
+            return true;
+        }
+        else if (filterId == R.id.action_filter_archived_tasks)
+        {
+            ArrayList<Task> archived = filterArchived(taskList);
+            tasksAdapter.setTasks(archived);
+            return true;
+        }
+
+        return false;
+    }
+
+    private ArrayList<Task> filterCompleted(ArrayList<Task> taskList)
+    {
+        ArrayList<Task> completed = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++)
+        {
+            Task task = taskList.get(i);
+            if (task.isCompleted())
+            {
+                completed.add(task);
+            }
+        }
+        return completed;
+    }
+
+    private ArrayList<Task> filterArchived(ArrayList<Task> taskList)
+    {
+        ArrayList<Task> archived = new ArrayList<>();
+        for (int i = 0; i < taskList.size(); i++)
+        {
+            Task task = taskList.get(i);
+            if (task.isArchived())
+            {
+                archived.add(task);
+            }
+        }
+        return archived;
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -227,7 +273,21 @@ public class TaskListActivity extends AppCompatActivity
                     {
                         int position = getAdapterPosition();
                         Task task = tasks.get(position);
-                        task.setCompleted(isChecked);
+
+                        if (task.isCompleted() != isChecked)
+                        {
+                            task.setCompleted(isChecked);
+                            TaskStorageHelper.getInstance().saveTask(task);
+                            Runnable runnable = new Runnable()
+                            {
+                                public void run()
+                                {
+                                    filterTasks(selectedFilter);
+                                }
+                            };
+                            buttonView.post(runnable);
+                        }
+
                     }
                 });
             }

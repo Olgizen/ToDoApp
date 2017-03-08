@@ -11,8 +11,7 @@
     <string name="hint_title">Title of the task</string>
     <string name="hint_description">Description of the task</string>
     <string name="label_completed">Completed</string>
-    <string name="label_filter_all_tasks_except_archived">All Tasks Except Archived</string>
-    <string name="label_filter_active_tasks">Active Tasks</string>
+    <string name="label_filter_all_tasks">All Tasks</string>
     <string name="label_filter_finished_tasks">Finished Tasks</string>
     <string name="label_filter_archived_tasks">Archived Tasks</string>
     <string name="label_tasks">Tasks</string>

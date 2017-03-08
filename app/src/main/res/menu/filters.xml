@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_filter_all_except_archived"
-        android:title="@string/label_filter_all_tasks_except_archived" />
-
-    <item android:id="@+id/action_filter_active_tasks"
-        android:title="@string/label_filter_active_tasks" />
+    <item android:id="@+id/action_filter_all_tasks"
+        android:title="@string/label_filter_all_tasks" />
 
     <item android:id="@+id/action_filter_finished_tasks"
         android:title="@string/label_filter_finished_tasks" />
