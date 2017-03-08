@@ -15,9 +15,10 @@
     <string name="label_filter_finished_tasks">Finished Tasks</string>
     <string name="label_filter_archived_tasks">Archived Tasks</string>
     <string name="label_tasks">Tasks</string>
+    <string name="label_filter_ongoing_tasks">Ongoing Tasks</string>
     <string name="label_statistics">Statistics</string>
     <string name="label_info">Info</string>
     <string name="label_add_task">Add Task</string>
-    <string name="title_activity_statistics">StatisticsActivity</string>
-    <string name="title_activity_info">InfoActivity</string>
+    <string name="title_activity_statistics">Statistics</string>
+    <string name="title_activity_info">Info</string>
 </resources>

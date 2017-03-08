@@ -2,6 +2,7 @@ package com.glasharry.ToDoApp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -79,8 +80,14 @@ public class TaskListActivity extends AppCompatActivity
     {
         super.onResume();
 
-        List<Task> tasks = TaskStorageHelper.getInstance().getTasks();
-        tasksAdapter.setTasks(tasks);
+        TaskStorageHelper.getInstance().getTasks(new TaskStorageHelper.Callback()
+        {
+            @Override
+            public void onData(List<Task> tasks)
+            {
+                tasksAdapter.setTasks(tasks);
+            }
+        });
     }
 
     @Override
@@ -110,65 +117,55 @@ public class TaskListActivity extends AppCompatActivity
         int id = item.getItemId();
 
 
-        if (filterTasks(id)) return true;
+        filterTasks(id);
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    private boolean filterTasks(int filterId)
+    private void filterTasks(int filterId)
     {
-        ArrayList<Task> taskList = new ArrayList<Task>(TaskStorageHelper.getInstance().getTasks());
-
         selectedFilter = filterId;
-
-        if (filterId == R.id.action_filter_all_tasks)
+        TaskStorageHelper.getInstance().getTasks(new TaskStorageHelper.Callback()
         {
-            tasksAdapter.setTasks(taskList);
-            return true;
-        }
-        else if (filterId == R.id.action_filter_finished_tasks)
-        {
-            ArrayList<Task> completed = filterCompleted(taskList);
-            tasksAdapter.setTasks(completed);
-            return true;
-        }
-        else if (filterId == R.id.action_filter_archived_tasks)
-        {
-            ArrayList<Task> archived = filterArchived(taskList);
-            tasksAdapter.setTasks(archived);
-            return true;
-        }
-
-        return false;
-    }
-
-    private ArrayList<Task> filterCompleted(ArrayList<Task> taskList)
-    {
-        ArrayList<Task> completed = new ArrayList<>();
-        for (int i = 0; i < taskList.size(); i++)
-        {
-            Task task = taskList.get(i);
-            if (task.isCompleted())
+            @Override
+            public void onData(List<Task> tasks)
             {
-                completed.add(task);
+                for (Task task : tasks)
+                {
+                    ArrayList<Task> filtered = new ArrayList<>();
+                    if (selectedFilter == R.id.action_filter_all_tasks)
+                    {
+                        filtered.add(task);
+                    }
+                    else if (selectedFilter == R.id.action_filter_ongoing_tasks)
+                    {
+                        if (!task.isCompleted() && !task.isArchived())
+                        {
+                            filtered.add(task);
+                        }
+                    }
+                    else if (selectedFilter == R.id.action_filter_finished_tasks)
+                    {
+                        if (task.isCompleted())
+                        {
+                            filtered.add(task);
+                        }
+                    }
+                    else if (selectedFilter == R.id.action_filter_archived_tasks)
+                    {
+                        if (task.isArchived())
+                        {
+                            filtered.add(task);
+                        }
+                    }
+
+                    tasksAdapter.setTasks(filtered);
+                }
             }
-        }
-        return completed;
+        });
     }
 
-    private ArrayList<Task> filterArchived(ArrayList<Task> taskList)
-    {
-        ArrayList<Task> archived = new ArrayList<>();
-        for (int i = 0; i < taskList.size(); i++)
-        {
-            Task task = taskList.get(i);
-            if (task.isArchived())
-            {
-                archived.add(task);
-            }
-        }
-        return archived;
-    }
+
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -186,10 +183,17 @@ public class TaskListActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_statistics)
         {
-            Intent statisticsIntent = new Intent(this, StatisticsActivity.class);
-            ArrayList<Task> tasks = new ArrayList<>(TaskStorageHelper.getInstance().getTasks());
-            statisticsIntent.putParcelableArrayListExtra(KEY_TASKS, tasks);
-            startActivity(statisticsIntent);
+            TaskStorageHelper.getInstance().getTasks(new TaskStorageHelper.Callback()
+            {
+                @Override
+                public void onData(List<Task> tasks)
+                {
+                    Intent statisticsIntent = new Intent(TaskListActivity.this, StatisticsActivity.class);
+                    statisticsIntent.putParcelableArrayListExtra(KEY_TASKS, new ArrayList<>(tasks));
+                    startActivity(statisticsIntent);
+                }
+            });
+
         }
         else if (id == R.id.nav_info)
         {
