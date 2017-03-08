@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class TaskDetailActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -51,6 +52,8 @@ public class TaskDetailActivity extends AppCompatActivity implements View.OnClic
             description.setText(task.getDescription());
             CheckBox completed = (CheckBox) findViewById(R.id.completed);
             completed.setChecked(task.isCompleted());
+            TextView dateCreated = (TextView) findViewById(R.id.createDateTextView);
+            dateCreated.setText(task.getStarted().toString());
         }
 
     }

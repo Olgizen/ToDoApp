@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Inställningar</string>
+    <string name="button_delete">Radera</string>
+    <string name="button_save">Spara</string>
+    <string name="hint_description">Beskrivning</string>
+    <string name="hint_title">Titel</string>
+    <string name="label_add_task">Lägg till uppgift</string>
+    <string name="label_completed">Avslutad</string>
+    <string name="label_detail_created">Skapad:</string>
+    <string name="label_filter_all_tasks">Alla Uppgifter</string>
+    <string name="label_filter_archived_tasks">Arkiverade Uppgifter</string>
+    <string name="label_filter_finished_tasks">Avslutade Uppgifter</string>
+    <string name="label_filter_ongoing_tasks">Pågående Uppgifter</string>
+    <string name="label_info">Info</string>
+    <string name="label_statistics">Statistik</string>
+    <string name="label_tasks">Uppgifter</string>
+    <string name="navigation_drawer_close">Stäng navigationsmenyn</string>
+    <string name="navigation_drawer_open">Öppna navigtionsmenyn</string>
+    <string name="title_activity_info">Info</string>
+    <string name="title_activity_statistics">Statistik</string>
+</resources>
